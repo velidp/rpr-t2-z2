@@ -36,31 +36,26 @@ public class Interval {
     public Interval intersect (Interval i1){
         Interval i3 = new Interval();
 
-        if (i1.krajnja_tacka <= this.pocetna_tacka) return i3;
-        else if (this.krajnja_tacka <= i1.pocetna_tacka) return i3;
-        else if (i1.pocetna_tacka <= this.pocetna_tacka && this.krajnja_tacka <= i1.pocetna_tacka){
-            i3 = this;
-            if (i1.a == false) i3.a = false;
-            if (i1.b == false) i3.a = false;
-        }
-        else if (i1.pocetna_tacka >= this.pocetna_tacka && i1.krajnja_tacka <= this.krajnja_tacka){
+        if (this.pocetna_tacka <= i1.pocetna_tacka && i1.krajnja_tacka <= this.krajnja_tacka){
             i3 = i1;
-            if (this.a == false) i3.a = false;
-            if (this.b == false) i3.a = false;
         }
-        else if (i1.krajnja_tacka > this.pocetna_tacka){
-            i3.pocetna_tacka = this.pocetna_tacka;
-            i3.krajnja_tacka = i1.krajnja_tacka;
-            i3.a = this.a;
-            i3.b = i1.b;
+        else if (this.pocetna_tacka >= i1.pocetna_tacka && this.krajnja_tacka <= i1.krajnja_tacka){
+            i3 = this;
         }
-        else if (i1.pocetna_tacka < this.krajnja_tacka){
+        else if (this.krajnja_tacka > i1.pocetna_tacka){
             i3.pocetna_tacka = i1.pocetna_tacka;
             i3.krajnja_tacka = this.krajnja_tacka;
             i3.a = i1.a;
             i3.b = this.b;
         }
-
+        else if (this.krajnja_tacka <= i1.pocetna_tacka) return i3;
+        else if (i1.krajnja_tacka <= this.pocetna_tacka) return i3;
+        else if (this.pocetna_tacka < i1.krajnja_tacka){
+            i3.pocetna_tacka = this.pocetna_tacka;
+            i3.krajnja_tacka = i1.krajnja_tacka;
+            i3.a = this.a;
+            i3.b = i1.b;
+        }
         return i3;
     }
 
@@ -68,10 +63,8 @@ public class Interval {
         Interval i3 = new Interval();
 
 
-        if (i1.pocetna_tacka <= i2.pocetna_tacka && i2.krajnja_tacka <= i1.pocetna_tacka){
+        if (i1.pocetna_tacka <= i2.pocetna_tacka && i2.krajnja_tacka <= i1.krajnja_tacka){
             i3 = i2;
-            if (i1.a == false) i3.a = false;
-            if (i1.b == false) i3.a = false;
         }
         else if (i1.pocetna_tacka >= i2.pocetna_tacka && i1.krajnja_tacka <= i2.krajnja_tacka){
             i3 = i1;
@@ -97,14 +90,30 @@ public class Interval {
     }
 
     public String toString (){
-        String a = "";
-        if(this.a == true) a += "[";
-        else if (this.a == false) a += "(";
 
-        a += String.valueOf(pocetna_tacka) + "," + String.valueOf(krajnja_tacka);
+        String s = "";
+        if(a == true) s += "[";
+        else if (a == false) s += "(";
 
-        if(this.b == true) a += "]";
-        else if (this.b == false) a += ")";
-        return a;
+        if(pocetna_tacka == 0 && krajnja_tacka == 0 && a == false && b == false){
+            return "()";
+        }
+        else {
+            s += String.valueOf(pocetna_tacka) + "," + String.valueOf(krajnja_tacka);
+        }
+
+        if(b == true) s += "]";
+        else if (b == false) s += ")";
+
+        return s;
+    }
+
+    public boolean equals (Interval i){
+        if(this.pocetna_tacka == i.pocetna_tacka && this.krajnja_tacka == i.krajnja_tacka && this.a == i.a && this.b == i.b) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
