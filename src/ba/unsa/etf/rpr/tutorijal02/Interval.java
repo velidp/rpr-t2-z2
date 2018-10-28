@@ -61,8 +61,6 @@ public class Interval {
 
     static Interval intersect (Interval i1, Interval i2){
         Interval i3 = new Interval();
-
-
         if (i1.pocetna_tacka <= i2.pocetna_tacka && i2.krajnja_tacka <= i1.krajnja_tacka){
             i3 = i2;
         }
@@ -108,12 +106,15 @@ public class Interval {
         return s;
     }
 
-    public boolean equals (Interval i){
-        if(this.pocetna_tacka == i.pocetna_tacka && this.krajnja_tacka == i.krajnja_tacka && this.a == i.a && this.b == i.b) {
-            return true;
+    public boolean equals (Object o){
+        if(o != null && o instanceof Interval){
+            double pocetna_tacka = this.pocetna_tacka;
+            double krajnja_tacka = this.krajnja_tacka;
+            boolean a = this.a;
+            boolean b = this.b;
+            if(pocetna_tacka == ((Interval) o).pocetna_tacka && krajnja_tacka == ((Interval) o).krajnja_tacka
+            && a == ((Interval) o).a && b == ((Interval) o).b) return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 }
